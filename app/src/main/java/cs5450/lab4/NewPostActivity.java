@@ -58,25 +58,40 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLARY_INTENT && resultCode == RESULT_OK) {
             //showProgressDialog();
-            Uri uri = data.getData();
-            String desc = mDesc.getText().toString();
-            boolean isPri = mIsPriSwitch.isChecked();
-            String author = usernameFromEmail();
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Uri uri = data.getData();////有问题！！
+            //Uri downloadUrl;
+            final String desc = mDesc.getText().toString();
+            final boolean isPri = mIsPriSwitch.isChecked();
+            final String author = usernameFromEmail();
+            final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             StorageReference filePath = mStorage.child("public").child(uri.getLastPathSegment());
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //hideProgressDialog();
-                    Toast.makeText(NewPostActivity.this, "Upload Success", Toast.LENGTH_LONG).show();
-                }
+
+
+            filePath.putFile(uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                            //hideProgressDialog();
+                            Toast.makeText(NewPostActivity.this, "Upload Success", Toast.LENGTH_LONG).show();
+
+                            // Get a URL to the uploaded content
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+
+                            Post p = new Post(uid, author, desc, downloadUrl.toString());
+                            if (isPri) {
+                                mDataBase.child("private").child(uid).push().setValue(p.toMap());
+                            } else {
+                                mDataBase.child("public").push().setValue(p.toMap());
+                            }
+                        }
             });
-            Post p = new Post(uid, author, desc, uri);
-            if (isPri) {
-                mDataBase.child("private").child(uid).push().setValue(p.toMap());
-            } else {
-                mDataBase.child("public").push().setValue(p.toMap());
-            }
+
+
+
+
             startActivity(new Intent(NewPostActivity.this, MainActivity.class));
             finish();
         }

@@ -46,6 +46,7 @@ public class ItemsFragment extends Fragment {
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
+
         final Query postsQuery = getQuery(mDatabase);
         if (postsQuery == null) {
             mAdapter = null;

@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -20,13 +22,20 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         descView = (TextView) itemView.findViewById(R.id.post_desc);
         authorView = (TextView) itemView.findViewById(R.id.post_author);
         bodyView = (TextView) itemView.findViewById(R.id.post_body);
-        mStorage = FirebaseStorage.getInstance().getReference();;
+        mStorage = FirebaseStorage.getInstance().getReference();
         imageView = (ImageView) itemView.findViewById(R.id.image_preview);
     }
 
     public void bindToPost(Post post) {
         descView.setText(post.desc);
         authorView.setText(post.author);
-        bodyView.setText(post.uri);
+        //bodyView.setText(post.uri);
+        //StorageReference pathReference = mStorage.child("public").child(post.uri);
+
+        Glide.with(imageView.getContext())
+                //.using(new FirebaseImageLoader())
+                .load(post.uri)//pathReference)//)//)
+                .into(imageView);
+
     }
 }

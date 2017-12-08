@@ -16,11 +16,11 @@ public class Post {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Post(String uid, String author, String desc, Uri uri) {
+    public Post(String uid, String author, String desc, String uri) {
         this.uid = uid;
         this.author = author;
         this.desc = desc;
-        this.uri = uri.toString();
+        this.uri = uri;//.getLastPathSegment();//toString();
     }
 
     public Map<String, Object> toMap() {
