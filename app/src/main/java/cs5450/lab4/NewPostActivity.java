@@ -73,14 +73,11 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
                             //hideProgressDialog();
                             Toast.makeText(NewPostActivity.this, "Upload Success", Toast.LENGTH_LONG).show();
 
                             // Get a URL to the uploaded content
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
 
                             Post p = new Post(uid, author, desc, downloadUrl.toString());
                             if (isPri) {

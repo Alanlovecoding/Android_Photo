@@ -39,13 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         final ItemsFragment pub = new ItemsFragment();
         final PrivateFragment pri = new PrivateFragment();
+        final ascii asc= new ascii();
+
         pub.setQuery(query);
         pri.setQuery(query);
+        asc.setQuery(query);
 
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            private final Fragment[] mFragments = new Fragment[] {pub, pri};
-            private final String[] mFragmentNames = {"PUBLIC", "PRIVATE"};
+            private final Fragment[] mFragments = new Fragment[] {pub, pri, asc};
+            private final String[] mFragmentNames = {"PUBLIC", "PRIVATE", "Post-Processing Photos"};
             @Override
             public Fragment getItem(int position) {
                 return mFragments[position];
