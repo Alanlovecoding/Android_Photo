@@ -64,7 +64,9 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
             final boolean isPri = mIsPriSwitch.isChecked();
             final String author = usernameFromEmail();
             final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference filePath = mStorage.child("public").child(uri.getLastPathSegment());
+
+            String name= isPri? "private": "public";
+            StorageReference filePath = mStorage.child(name).child(uri.getLastPathSegment());
 
 
             filePath.putFile(uri)
