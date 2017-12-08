@@ -58,21 +58,21 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLARY_INTENT && resultCode == RESULT_OK) {
             //showProgressDialog();
-            Uri uri = data.getData();////有问题！！
+            Uri uri = data.getData();//
             //Uri downloadUrl;
             final String desc = mDesc.getText().toString();
             final boolean isPri = mIsPriSwitch.isChecked();
             final String author = usernameFromEmail();
             final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            String name= isPri? "private": "public";
+            String name="test";//= isPri? "private": "public";
             StorageReference filePath = mStorage.child(name).child(uri.getLastPathSegment());
-
 
             filePath.putFile(uri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                             //hideProgressDialog();
                             Toast.makeText(NewPostActivity.this, "Upload Success", Toast.LENGTH_LONG).show();
 
@@ -87,8 +87,6 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
                             }
                         }
             });
-
-
 
 
             startActivity(new Intent(NewPostActivity.this, MainActivity.class));
